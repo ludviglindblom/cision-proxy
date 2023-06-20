@@ -39,15 +39,18 @@ const interval = 30000
 let server = startApp(app)
 
 const cisionPinger = async () => {
-  console.info('Trying to fetch Cision RSS feed')
+  console.info('Fetching Cision RSS feed')
   try {
-    const result = await parser.parseURL(
-      `https://news.cision.com/se/beyond-frames/ListItems?format=rss&pageSize=200`
+    const feedSE = await parser.parseURL(
+      `https://news.cision.com/se/beyond-frames/ListItems?format=rss&pageSize=1000`
     )
-    const resultData = result
-    console.info(resultData.items.length)
-    if (resultData.items.length != cisionEntries) {
-      cisionEntries = resultData.items.length
+    const feedEN = await parser.parseURL(
+      `https://news.cision.com/beyond-frames/ListItems?format=rss&pageSize=1000`
+    )
+    const combinedTotal = feedSE?.items?.length + feedEN?.items?.length
+
+    if (combinedTotal != cisionEntries) {
+      cisionEntries = feedSE.items.length + feedEN.items.length
       const gatsbyHookResponse = await fetch(
         'https://webhook.gatsbyjs.com/hooks/data_source/publish/7ed94d80-bd7e-454b-a3b7-2b88fd04e318',
         {
