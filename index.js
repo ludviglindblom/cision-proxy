@@ -8,7 +8,7 @@ app.get('/', (req, res) => res.send('Home Page Route'))
 app.get('/health', (req, res) => res.send('cision-proxy server up and running'))
 app.get('/rebuild', (req, res) => {
   try {
-    fetch('https://api.netlify.com/build_hooks/651d24ee4348382399c6d072', {
+    fetch('https://api.netlify.com/build_hooks/669e3cb1a077df1adc204e95', {
       method: 'POST',
     }).then((response) => res.send('POST successful'))
   } catch (err) {
@@ -49,7 +49,7 @@ const cisionPinger = async () => {
     if (combinedTotal != cisionEntries) {
       cisionEntries = feedSE.items.length + feedEN.items.length
       const gatsbyHookResponse = await fetch(
-        'https://api.netlify.com/build_hooks/651d24ee4348382399c6d072',
+        'https://api.netlify.com/build_hooks/669e3cb1a077df1adc204e95',
         {
           method: 'POST',
         }
